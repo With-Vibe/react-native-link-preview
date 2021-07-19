@@ -116,11 +116,8 @@ export const LinkPreview = React.memo(
       )(image)
     }
 
-    const beginsWithUrl = new RegExp(
-      "^([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?(/.*)?"
-    )
-    const endsWithUrl = new RegExp(
-      "([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?(/.*)?$"
+    const onlyURL = new RegExp(
+      "^([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?(/.*)?$"
     )
 
     const renderLinkPreviewNode = () => {
@@ -133,8 +130,8 @@ export const LinkPreview = React.memo(
               textContainerStyle,
             ])}
           >
-            Render text if 
-            {!(beginsWithUrl.test(text) || endsWithUrl.test(text)) && renderTextNode()}
+            {/* Render only if not just the URL */}
+            {!onlyURL.test(text) && renderTextNode()}
             {/* Render metadata only if there are either description OR title OR
                 there is an image with an aspect ratio of 1 and either description or title
               */}
