@@ -134,7 +134,7 @@ export const LinkPreview = React.memo(
             ])}
           >
             Render text if 
-            {!(beginsWithUrl.test(text) || endsWithUrl.text(text)) && renderTextNode()}
+            {!(beginsWithUrl.test(text) || endsWithUrl.test(text)) && renderTextNode()}
             {/* Render metadata only if there are either description OR title OR
                 there is an image with an aspect ratio of 1 and either description or title
               */}
