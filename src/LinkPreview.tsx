@@ -181,7 +181,7 @@ export const LinkPreview = React.memo(
       )(image)
     }
 
-    const renderTextNode = () => oneOf(renderText, <Text>{text}</Text>)(text)
+    const renderTextNode = () => oneOf(renderText, <Text>hi {text}</Text>)(text)
 
     const renderTitleNode = (title: string) => {
       return oneOf(
