@@ -116,6 +116,13 @@ export const LinkPreview = React.memo(
       )(image)
     }
 
+    const beginsWithUrl = new RegExp(
+      "^([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?(/.*)?"
+    )
+    const endsWithUrl = const beginsWithUrl = new RegExp(
+      "([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?(/.*)?$"
+    )
+
     const renderLinkPreviewNode = () => {
       return oneOf(
         renderLinkPreview,
@@ -126,7 +133,8 @@ export const LinkPreview = React.memo(
               textContainerStyle,
             ])}
           >
-            {renderTextNode()}
+            Render text if 
+            {!(beginsWithUrl.test(text) || endsWithUrl.text(text)) && renderTextNode()}
             {/* Render metadata only if there are either description OR title OR
                 there is an image with an aspect ratio of 1 and either description or title
               */}
@@ -181,7 +189,7 @@ export const LinkPreview = React.memo(
       )(image)
     }
 
-    const renderTextNode = () => oneOf(renderText, <Text>hi {text}</Text>)(text)
+    const renderTextNode = () => oneOf(renderText, <Text>{text}</Text>)(text)
 
     const renderTitleNode = (title: string) => {
       return oneOf(
