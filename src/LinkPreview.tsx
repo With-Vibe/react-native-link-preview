@@ -116,6 +116,10 @@ export const LinkPreview = React.memo(
       )(image)
     }
 
+    const onlyURL = new RegExp(
+      "^([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?(/.*)?$"
+    ).test(text)
+
     const renderLinkPreviewNode = () => {
       return oneOf(
         renderLinkPreview,
@@ -127,7 +131,7 @@ export const LinkPreview = React.memo(
             ])}
           >
             {/* Render only if not just the URL */}
-            {renderTextNode()}
+            {!onlyURL && renderTextNode()}
             {/* Render metadata only if there are either description OR title OR
                 there is an image with an aspect ratio of 1 and either description or title
               */}
@@ -140,6 +144,9 @@ export const LinkPreview = React.memo(
                 style={StyleSheet.flatten([
                   styles.metadataContainer,
                   metadataContainerStyle,
+                  onlyURL && { 
+                    marginTop: 0,
+                  }
                 ])}
               >
                 <View
@@ -181,6 +188,10 @@ export const LinkPreview = React.memo(
         />
       )(image)
     }
+
+    const urlCheck = new RegExp(
+      "^([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?(/.*)?$"
+    )
 
     const renderTextNode = () => oneOf(renderText, <Text>{text}</Text>)(text)
 
