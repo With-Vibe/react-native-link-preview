@@ -122,9 +122,9 @@ export const LinkPreview = React.memo(
     }
 
     useEffect(() => {
-      const timeout = linkTimeout.current
+      const timeoutRef = linkTimeout
       return() => {
-        if (timeout) clearTimeout(timeout)
+        if (timeoutRef.current) clearTimeout(timeoutRef.current)
       }
     })
 
