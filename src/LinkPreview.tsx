@@ -59,7 +59,7 @@ export const LinkPreview = React.memo(
     const [containerWidth, setContainerWidth] = React.useState(0)
     const [data, setData] = React.useState(previewData)
     const linkPressed = useRef<boolean>(false)
-    const linkTimeout = useRef<number | null>()
+    const linkTimeout = useRef<ReturnType<typeof setTimeout> | null>()
 
     const aspectRatio = data?.image
       ? data.image.width / data.image.height
@@ -145,8 +145,8 @@ export const LinkPreview = React.memo(
         // image has already been pressed once
         reactToLink()
       } else {
+        let timeout: ReturnType<typeof setTimeout>
         // image has not been pressed
-        let timeout: null | ReturnType<typeof setTimeout> = null
         timeout = setTimeout(() => {
           handlePress()
           resetPress()
