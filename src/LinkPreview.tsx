@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useEffect, useRef } from "react"
 import {
   Image,
   LayoutChangeEvent,
@@ -24,6 +24,7 @@ export interface LinkPreviewProps {
   previewData?: PreviewData
   renderDescription?: (description: string) => React.ReactNode
   renderImage?: (image: PreviewDataImage) => React.ReactNode
+  reactToLink: () => void
   renderLinkPreview?: (payload: {
     aspectRatio?: number
     containerWidth: number
@@ -44,6 +45,7 @@ export const LinkPreview = React.memo(
     metadataTextContainerStyle,
     onPreviewDataFetched,
     previewData,
+    reactToLink,
     renderDescription,
     renderImage,
     renderLinkPreview,
@@ -56,6 +58,9 @@ export const LinkPreview = React.memo(
   }: LinkPreviewProps) => {
     const [containerWidth, setContainerWidth] = React.useState(0)
     const [data, setData] = React.useState(previewData)
+    const linkPressed = useRef<boolean>(false)
+    const linkTimeout = useRef<number | null>()
+
     const aspectRatio = data?.image
       ? data.image.width / data.image.height
       : undefined
@@ -114,6 +119,40 @@ export const LinkPreview = React.memo(
           ])}
         />
       )(image)
+    }
+
+    useEffect(() => {
+      const timeout = linkTimeout.current
+      return() => {
+        if (timeout) clearTimeout(timeout)
+      }
+    })
+
+    const resetPress = () => {
+      linkPressed.current = false
+      linkTimeout.current = null
+    }
+  
+    const press = () => {
+      if (
+        linkPressed.current &&
+        linkTimeout.current &&
+        linkPressed.current === true
+      ) {
+        // reset + clear timeout
+        clearTimeout(linkTimeout.current)
+        resetPress()
+        // image has already been pressed once
+        reactToLink()
+      } else {
+        // image has not been pressed
+        const timeout = setTimeout(() => {
+          handlePress()
+          resetPress()
+        }, 300)
+        linkPressed.current = true
+        linkTimeout.current = timeout
+      }
     }
 
     const onlyURL = new RegExp(
@@ -207,7 +246,7 @@ export const LinkPreview = React.memo(
     return (
       <TouchableWithoutFeedback
         accessibilityRole='button'
-        onPress={handlePress}
+        onPress={press}
         {...touchableWithoutFeedbackProps}
       >
         <View onLayout={handleContainerLayout} style={containerStyle}>
