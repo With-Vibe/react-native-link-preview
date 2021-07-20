@@ -59,7 +59,7 @@ export const LinkPreview = React.memo(
     const [containerWidth, setContainerWidth] = React.useState(0)
     const [data, setData] = React.useState(previewData)
     const linkPressed = useRef<boolean>(false)
-    const linkTimeout = useRef<Timeout | number | null>()
+    const linkTimeout = useRef<number | null>()
 
     const aspectRatio = data?.image
       ? data.image.width / data.image.height
