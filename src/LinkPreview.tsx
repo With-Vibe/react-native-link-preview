@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react"
+import * as React from 'react'
 import {
   Image,
   LayoutChangeEvent,
@@ -58,8 +58,8 @@ export const LinkPreview = React.memo(
   }: LinkPreviewProps) => {
     const [containerWidth, setContainerWidth] = React.useState(0)
     const [data, setData] = React.useState(previewData)
-    const linkPressed = useRef<boolean>(false)
-    const linkTimeout = useRef<ReturnType<typeof setTimeout> | null>()
+    const linkPressed = React.useRef<boolean>(false)
+    const linkTimeout = React.useRef<ReturnType<typeof setTimeout> | null>()
 
     const aspectRatio = data?.image
       ? data.image.width / data.image.height
@@ -121,7 +121,7 @@ export const LinkPreview = React.memo(
       )(image)
     }
 
-    useEffect(() => {
+    React.useEffect(() => {
       const timeoutRef = linkTimeout
       return() => {
         if (timeoutRef.current) clearTimeout(timeoutRef.current)
