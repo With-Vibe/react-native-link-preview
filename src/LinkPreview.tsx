@@ -69,7 +69,7 @@ export const LinkPreview = React.memo(
       let isCancelled = false
       if (previewData) return
       const fetchData = async () => {
-        setData(undefined)
+        setData({title: "Loading..."})
         const newData = await getPreviewData(text)
         // Set data only if component is still mounted
         /* istanbul ignore next */
